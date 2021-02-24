@@ -5,6 +5,7 @@ Android first uidemo、
 知识点：
 
 UI
+
 	ConstraintLayout
 	
 	layer-list画图
@@ -14,6 +15,9 @@ UI
 	RecyclerView
 	
 HTTP：
+
 	OkHttp
+	
 JSON:
+
 	Gson
