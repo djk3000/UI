@@ -3,7 +3,7 @@ package entity;
 import java.util.List;
 
 public class hotModel {
-    private String code;
+    public String code;
     private String msg;
     private List<hotData> data;
 
@@ -49,6 +49,15 @@ public class hotModel {
         public void setHot_word_num(String hot_word_num) {
             this.hot_word_num = hot_word_num;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "hotModel{" +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }
 
