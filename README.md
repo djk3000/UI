@@ -1,4 +1,4 @@
-# UI（Android）
+# UI（Android基础练习）
 
 Android first uidemo
 
@@ -6,6 +6,8 @@ Android first uidemo
 
 UI
 
+	Activity
+	
 	ConstraintLayout
 	
 	layer-list画图
@@ -13,6 +15,10 @@ UI
 	ScrollView
 	
 	RecyclerView
+	
+	ImageView
+	
+	AlertDialog
 	
 HTTP：
 
