@@ -22,7 +22,7 @@ public class SmartHttp {
         doHttp(client, request, handler);
     }
 
-    public void  SyncPost(String url, RequestBody body, Handler handler) throws IOException{
+    public void SyncPost(String url, RequestBody body, Handler handler) throws IOException {
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
@@ -48,6 +48,32 @@ public class SmartHttp {
                 handler.sendMessage(message);
             }
         });
+    }
+
+    public Message SyncGet(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        return doHttp(client, request);
+    }
+
+    private Message doHttp(OkHttpClient client, Request request) throws IOException {
+        Message message = Message.obtain();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                message.what = FAILURE_CODE;
+                message.obj = e.getMessage();//失败的信息
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String data = response.body().string();
+                message.what = SUCCESS_CODE;
+                message.obj = data;
+            }
+        });
+        return message;
     }
 
     OkHttpClient client = new OkHttpClient();

@@ -44,12 +44,23 @@ public class HotSearch extends AppCompatActivity {
 
         Log.d("address", getResources().getString(R.string.address));
         String address = getResources().getString(R.string.address);
-
         try {
             sh.SyncGet(address, handler);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        try {
+//            Message message = sh.SyncGet(address);
+//            this.runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    SetMessage(message);
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         //横屏
         if (ScreenOrient(this) == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
@@ -67,7 +78,6 @@ public class HotSearch extends AppCompatActivity {
         dividerItemDecoration.setDrawable(mDrawable);
     }
 
-    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -110,6 +120,45 @@ public class HotSearch extends AppCompatActivity {
             }
         }
     };
+
+    private void SetMessage(Message msg) {
+        switch (msg.what) {
+            case 1000:
+                Gson gson = new Gson();
+                hotModel hm = gson.fromJson((String) msg.obj, hotModel.class);
+                Log.d("code", hm.getCode());
+                int count = 0;
+                ArrayList<String> list = new ArrayList<String>();
+                for (hotModel.hotData data : hm.getData()) {
+                    count += 1;
+                    String resultMessage = count + "." + data.getHot_word() + "(" + data.getHot_word_num() + ")";
+                    list.add(resultMessage);
+                }
+                recyclerView = findViewById(R.id.recycler);
+                //设置recycleer
+                hotListAdapter = new HotListAdapter(list);
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setAdapter(hotListAdapter);
+                recyclerView.addItemDecoration(dividerItemDecoration);
+
+                hotListAdapter.setOnItemClickListener(new HotListAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        String str = list.get(position);
+                        Toast.makeText(HotSearch.this, "click " + str, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                hotListAdapter.setOnItemLongClickListener(new HotListAdapter.OnItemLongClickListener() {
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+                        String str = list.get(position);
+                        Toast.makeText(HotSearch.this, "longclick " + str, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+        }
+    }
 
     public int ScreenOrient(Activity activity) {
         int orient = activity.getRequestedOrientation();

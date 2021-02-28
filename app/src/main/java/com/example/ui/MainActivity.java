@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.item_display:
                 look(null);
                 break;
@@ -92,4 +92,9 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int TEXT_REQUEST = 1;
     public static final String EXTRA_MESSAGE = "username";
+
+    public void dataBinding(View view) {
+        Intent it = new Intent(this, DataBindingActivity.class);
+        startActivity(it);
+    }
 }
